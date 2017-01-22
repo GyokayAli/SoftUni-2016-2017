@@ -11,7 +11,7 @@ namespace _19.TheaThePhotographer
             int filterFactor = int.Parse(Console.ReadLine());
             int uploadTime = int.Parse(Console.ReadLine());
 
-            long filteredPics = (long)Math.Ceiling(totalPics * ((decimal)filterFactor / 100));
+            long filteredPics = (long)Math.Ceiling(totalPics * ((double)filterFactor / 100));
             long totalTime = (totalPics * filterTime) + (filteredPics * uploadTime);
 
             TimeSpan ts = TimeSpan.FromSeconds(totalTime);
