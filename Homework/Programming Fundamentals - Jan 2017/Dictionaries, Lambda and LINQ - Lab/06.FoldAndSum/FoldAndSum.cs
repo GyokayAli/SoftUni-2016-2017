@@ -14,8 +14,8 @@
 
             int k = nums.Length / 4;
 
-            var firstPart = nums.Take(k).Reverse().ToArray();
-            var midPart = nums.Skip(k).Take(2 * k).ToArray();
+            var firstPart = nums.Take(k).Reverse();
+            var midPart = nums.Skip(k).Take(2 * k);
             var lastPart = nums.Reverse().Take(k);
 
             var mergedFirstAndLast = firstPart.Concat(lastPart);
