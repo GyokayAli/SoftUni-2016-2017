@@ -33,15 +33,15 @@
 
             //holds each country's total population and name
             var countryTotalPopDict = new Dictionary<string, long>();
-            foreach (var city in countryDataDict)
+            foreach (var data in countryDataDict)
             {
                 long totalPopulation = 0;
 
-                foreach (var pair in city.Value)
+                foreach (var pair in data.Value)
                 {
                     totalPopulation += pair.Value;
                 }
-                countryTotalPopDict[city.Key] = totalPopulation;
+                countryTotalPopDict[data.Key] = totalPopulation;
             }
 
             //retrieve country -> country population, and sort by descending order (population)
