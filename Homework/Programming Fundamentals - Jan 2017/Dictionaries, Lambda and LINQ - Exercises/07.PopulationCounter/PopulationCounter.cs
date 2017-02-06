@@ -12,40 +12,61 @@
                 .Split('|')
                 .ToArray();
 
-            var populationDic = new Dictionary<string, Dictionary<string, int>>();
-
+            var countryDataDict = new Dictionary<string, Dictionary<string, long>>();
             while (input[0] != "report")
             {
                 var city = input[0];
                 var country = input[1];
                 var population = int.Parse(input[2]);
 
-                if (!populationDic.ContainsKey(country))
+                if (!countryDataDict.ContainsKey(country))
                 {
-                    populationDic[country] = new Dictionary<string, int>();
+                    countryDataDict[country] = new Dictionary<string, long>();
                 }
 
-                populationDic[country][city] = population;
+                countryDataDict[country][city] = population;
 
                 input = Console.ReadLine()
                 .Split('|')
                 .ToArray();
             }
 
-            foreach (var kvp in populationDic.OrderByDescending(x => x.Key))
+            //holds each country's total population and name
+            var countryTotalPopDict = new Dictionary<string, long>();
+            foreach (var city in countryDataDict)
             {
-                var country = kvp.Key;
-                var citiesByPopulation = kvp.Value;
-                var totalCountryPopulation = citiesByPopulation.Values.Sum();
+                long totalPopulation = 0;
 
-                Console.WriteLine($"{country} (total population: {totalCountryPopulation})");
-
-                foreach (var city in citiesByPopulation.OrderByDescending(x => x.Value))
+                foreach (var pair in city.Value)
                 {
-                    var cityName = city.Key;
-                    var cityPopulation = city.Value;
+                    totalPopulation += pair.Value;
+                }
+                countryTotalPopDict[city.Key] = totalPopulation;
+            }
 
-                    Console.WriteLine($"=>{cityName}: {cityPopulation}");
+            //retrieve country -> country population, and sort by descending order (population)
+            foreach (var country in countryTotalPopDict.OrderByDescending(x => x.Value))
+            {
+                var countryName = country.Key;
+                var countryPopulation = country.Value;
+
+                Console.WriteLine($"{countryName} (total population: {countryPopulation})");
+
+                //retrieve country -> { city -> city population }
+                foreach (var countryData in countryDataDict)
+                {
+                    //check if it points to the same country
+                    if (country.Key == countryData.Key)
+                    {
+                        //retrieve city -> city population, and sort by descending order (population)
+                        foreach (var data in countryData.Value.OrderByDescending(x => x.Value))
+                        {
+                            var cityName = data.Key;
+                            var cityPopulation = data.Value;
+
+                            Console.WriteLine($"=>{cityName}: {cityPopulation}");
+                        }
+                    }
                 }
             }
         }
