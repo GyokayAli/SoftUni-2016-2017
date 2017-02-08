@@ -1,76 +1,72 @@
-﻿namespace _09.LegendaryFarming
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class LegendaryFarming
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
-    class LegendaryFarming
+    static void Main()
     {
-        static void Main()
+        var keyMaterials = new SortedDictionary<string, long>();
+        keyMaterials["shards"] = 0;
+        keyMaterials["motes"] = 0;
+        keyMaterials["fragments"] = 0;
+
+        var junkMaterials = new SortedDictionary<string, long>();
+        bool isInput = true;
+
+        while (isInput)
         {
-            var materialQuantDic = new Dictionary<string, long>();
-            var junkSortDict = new SortedDictionary<string, long>();
+            string[] materials = Console.ReadLine().ToLower().Split(' ').ToArray();
 
-            materialQuantDic["shard"] = 0;
-            materialQuantDic["fragments"] = 0;
-            materialQuantDic["motes"] = 0;
-
-            bool isNotEnough = true;
-            while (isNotEnough)
+            for (int i = 0; i < materials.Length; i += 2)
             {
-                var resourceLine = Console.ReadLine()
-                    .ToLower()
-                    .Split(' ')
-                    .ToArray();
-
-                for (int i = 0; i < resourceLine.Length; i += 2)
+                long currQuantity = long.Parse(materials[i]);
+                string currMaterial = materials[i + 1];
+                if (currMaterial == "shards" || currMaterial == "motes" || currMaterial == "fragments")
                 {
-                    var quantity = long.Parse(resourceLine[i]);
-                    string material = resourceLine[i + 1];
-
-                    if (materialQuantDic.ContainsKey(material))
-                    {
-                        materialQuantDic[material] += quantity;
-                        if (materialQuantDic[material] >= 250)
-                        {
-                            materialQuantDic[material] -= 250;
-                            string result = string.Empty;
-                            switch (material)
-                            {
-                                case "shards": result = "Shadowmourne"; break;
-                                case "fragments": result = "Valanyr"; break;
-                                case "motes": result = "Dragonwrath"; break;
-                            }
-                            Console.WriteLine("{0} obtained!", result);
-                            isNotEnough = false;
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        if (!junkSortDict.ContainsKey(material))
-                        {
-                            junkSortDict.Add(material, 0);
-                        }
-                        junkSortDict[material] += quantity;
-                    }
+                    keyMaterials[currMaterial] += currQuantity;
                 }
-            }
+                else
+                {
+                    if (!junkMaterials.ContainsKey(currMaterial))
+                    {
+                        junkMaterials.Add(currMaterial, 0);
+                    }
+                    junkMaterials[currMaterial] += currQuantity;
+                }
 
-            //print the remaining key materials in descending order by quantity then by alphabetical order
-            var extraResources = materialQuantDic.OrderByDescending(x => x.Value).ThenBy(x => x.Key);
-            foreach (var usefulMaterial in extraResources)
-            {
-                var materialName = usefulMaterial.Key;
-                var materialQuant = usefulMaterial.Value;
-                Console.WriteLine($"{materialName}: {materialQuant}");
-            }
-            //print the junk items in alphabetical order
-            foreach (var junkMaterial in junkSortDict)
-            {
-                var materialName = junkMaterial.Key;
-                var materialQuant = junkMaterial.Value;
-                Console.WriteLine($"{materialName}: {materialQuant}");
+                if (keyMaterials["shards"] >= 250 || keyMaterials["motes"] >= 250 || keyMaterials["fragments"] >= 250)
+                {
+                    foreach (var item in keyMaterials.OrderByDescending(x => x.Value))
+                    {
+                        switch (item.Key)
+                        {
+                            case "motes":
+                                Console.WriteLine("Dragonwrath obtained!");
+                                keyMaterials[item.Key] -= 250;
+                                break;
+                            case "shards":
+                                Console.WriteLine("Shadowmourne obtained!");
+                                keyMaterials[item.Key] -= 250;
+                                break;
+                            case "fragments":
+                                Console.WriteLine("Valanyr obtained!");
+                                keyMaterials[item.Key] -= 250;
+                                break;
+                        }
+                        break;
+                    }
+
+                    foreach (var item in keyMaterials.OrderByDescending(x => x.Value).ThenBy(x => x.Key))
+                    {
+                        Console.WriteLine("{0}: {1}", item.Key, item.Value);
+                    }
+                    foreach (var item in junkMaterials)
+                    {
+                        Console.WriteLine("{0}: {1}", item.Key, item.Value);
+                    }
+                    return;
+                }
             }
         }
     }
