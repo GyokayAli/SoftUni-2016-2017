@@ -2,22 +2,36 @@
 {
     using System;
     using System.Text.RegularExpressions;
+
     public class ValidUsernames
     {
         public static void Main()
         {
-            var usernames = Console.ReadLine()
-                .Split(new[] { '/', '\\', '(', ')', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            var usernames = Console.ReadLine();
 
-            var pattern = @"^(?=.{3,25}$)[a-zA-Z0-9._]+$";
+            var pattern = @"\b[a-zA-Z][a-zA-Z0-9_]{2,24}\b";
+
             var regex = new Regex(pattern);
-            foreach (var username in usernames)
+            var matchCollection = regex.Matches(usernames);
+
+            var sum = 0;
+            var maxSum = 0;
+            var first = string.Empty;
+            var second = string.Empty;
+
+            for (int i = 1; i < matchCollection.Count; i++)
             {
-                if (regex.IsMatch(username))
+                sum = matchCollection[i - 1].Length + matchCollection[i].Length;
+
+                if (sum > maxSum)
                 {
-                    Console.WriteLine(username);
+                    maxSum = sum;
+                    first = matchCollection[i - 1].ToString();
+                    second = matchCollection[i].ToString();
                 }
             }
+
+            Console.WriteLine($"{first}\n{second}");
         }
     }
 }
