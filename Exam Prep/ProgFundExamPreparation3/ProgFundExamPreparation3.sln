@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02.CommandInterpreter", "02
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03.RageQuit", "03.RageQuit\03.RageQuit.csproj", "{3463B7D8-B464-4404-BD24-110266257BCE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04.Files", "04.Files\04.Files.csproj", "{B5CD4522-5829-4384-926A-874B6454B715}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{3463B7D8-B464-4404-BD24-110266257BCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3463B7D8-B464-4404-BD24-110266257BCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3463B7D8-B464-4404-BD24-110266257BCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5CD4522-5829-4384-926A-874B6454B715}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5CD4522-5829-4384-926A-874B6454B715}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5CD4522-5829-4384-926A-874B6454B715}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5CD4522-5829-4384-926A-874B6454B715}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
