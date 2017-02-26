@@ -7,11 +7,11 @@
     {
         public static void Main()
         {
-            int fieldSize = int.Parse(Console.ReadLine());
-            int[] ladybugs = new int[fieldSize];
+            var fieldSize = int.Parse(Console.ReadLine());
+            var ladybugs = new int[fieldSize];
 
-            int[] indexes = Console.ReadLine().Split().Select(int.Parse).ToArray();
-            string[] command = Console.ReadLine().Split();
+            var indexes = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            var command = Console.ReadLine().Split();
 
             foreach (var index in indexes)
             {
