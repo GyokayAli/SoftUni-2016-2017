@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02.SoftUniKaraoke", "02.Sof
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03.EnduranceRally", "03.EnduranceRally\03.EnduranceRally.csproj", "{D2855CBC-39A9-4958-A131-CCEDF0782219}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04.WinningTicket", "04.WinningTicket\04.WinningTicket.csproj", "{8C285170-962F-4CAE-9642-A3B2339A1F10}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{D2855CBC-39A9-4958-A131-CCEDF0782219}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2855CBC-39A9-4958-A131-CCEDF0782219}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2855CBC-39A9-4958-A131-CCEDF0782219}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C285170-962F-4CAE-9642-A3B2339A1F10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C285170-962F-4CAE-9642-A3B2339A1F10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C285170-962F-4CAE-9642-A3B2339A1F10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C285170-962F-4CAE-9642-A3B2339A1F10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
