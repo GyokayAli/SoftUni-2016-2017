@@ -1,0 +1,12 @@
+body{
+    background: lightgrey;
+    line-height: 1.5em;
+    font-size: 24pt;
+}
+
+.lang{
+    border: 1px darkgrey;
+    border-radius: 10px;
+    padding: 4px 10px 4px 10px;
+    background: darkgrey;
+}
