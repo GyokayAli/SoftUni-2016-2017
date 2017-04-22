@@ -57,6 +57,7 @@ namespace Blog.Controllers
         }
 
         // GET: Article/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -64,6 +65,7 @@ namespace Blog.Controllers
 
         // POST: Article/Create
         [HttpPost]
+        [Authorize]
         public ActionResult Create(Article article)
         {
             if (ModelState.IsValid)
@@ -88,6 +90,150 @@ namespace Blog.Controllers
             }
 
             return View(article);
+        }
+
+        //
+        // GET: Article/Delete
+        public ActionResult Delete(int? id)
+        {
+            if(id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            using(var db = new BlogDbContext())
+            {
+                // Get article from DB
+                var article = db.Articles
+                    .Where(a => a.Id == id)
+                    .Include(a => a.Author)
+                    .First();
+
+                if (!IsUserAuthorizedToEdit(article))
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                }
+
+                // Check if article exists
+                if(article == null)
+                {
+                    return HttpNotFound();
+                }
+
+                // Pass article to view
+                return View(article);
+            }
+        }
+
+        //
+        // POST: Article/Delete
+        [HttpPost]
+        [ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            using (var db = new BlogDbContext())
+            {
+                // Get article from DB
+                var article = db.Articles
+                    .Where(a => a.Id == id)
+                    .Include(a => a.Author)
+                    .First();
+
+                // Check if article exists
+                if (article == null)
+                {
+                    return HttpNotFound();
+                }
+
+                // Delete article from DB
+                db.Articles.Remove(article);
+                db.SaveChanges();
+
+                // Redirect to Index page
+                return RedirectToAction("Index");
+            }
+        }
+
+        //
+        // GET: Article/Edit
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            using (var db = new BlogDbContext())
+            {
+                // Get article from DB
+                var article = db.Articles
+                    .Where(a => a.Id == id)
+                    .First();
+
+                if (!IsUserAuthorizedToEdit(article))
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                }
+
+                // Check if article exists
+                if (article == null)
+                {
+                    return HttpNotFound();
+                }
+
+                // Create the view model
+                var model = new ArticleViewModel();
+                model.Id = article.Id;
+                model.Title = article.Title;
+                model.Content = article.Content;
+
+                // Pass the view model to view
+                return View(model);
+            }
+        }
+
+        //
+        // POST: Article/Edit
+        [HttpPost]
+        public ActionResult Edit(ArticleViewModel model)
+        {
+            // Check if model state is valid
+            if (ModelState.IsValid)
+            {
+                using (var db = new BlogDbContext())
+                {
+                    // Get article from DB
+                    var article = db.Articles
+                        .FirstOrDefault(a => a.Id == model.Id);
+
+                    // Save article properties
+                    article.Title = model.Title;
+                    article.Content = model.Content;
+
+                    // Save article state in DB
+                    db.Entry(article).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    // Redirect to Index page
+                    return RedirectToAction("Index");
+                }
+            }
+
+            // If model state is invalid, return the same view
+            return View(model);
+        }
+
+        private bool IsUserAuthorizedToEdit(Article article)
+        {
+            bool isAdmin = this.User.IsInRole("Admin");
+            bool isAuthor = article.IsAuthor(this.User.Identity.Name);
+
+            return isAdmin || isAuthor;
         }
     }
 }
